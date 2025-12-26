@@ -43,7 +43,7 @@ class CategoryController {
     }
   }
 
-  // GET /api/categories/:id (opcional)
+  // GET /api/categories/:id
   async getById(req, res, next) {
     try {
       const { id } = req.params;
