@@ -1,0 +1,38 @@
+{
+  "name": "api_product_catalog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/app.js",
+    "start": "node src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jnavarrete96/api_product_catalog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jnavarrete96/api_product_catalog/issues"
+  },
+  "homepage": "https://github.com/jnavarrete96/api_product_catalog#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "csv-parse": "^6.1.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "joi": "^18.0.2",
+    "multer": "^2.0.2",
+    "sequelize": "^6.37.7",
+    "tedious": "^19.2.0",
+    "winston": "^3.19.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
