@@ -58,7 +58,7 @@ class ProductService {
     
     if (data.Name !== undefined) {
       this.#validateProductData({ Name: data.Name });
-      await this.#validateUniqueName(data.Name);
+      await this.#validateUniqueName(data.Name, id);
     }
 
     if (data.Sku !== undefined) {
@@ -152,7 +152,7 @@ class ProductService {
 
     if (existing) {
       // Si estamos actualizando, permitir si es el mismo producto
-      if (!excludeId || existing.ProductId !== Number(excludeId)) {
+      if (!excludeId || Number(existing.ProductId) !== Number(excludeId)) {
         throw new ConflictError('Ya existe un producto con ese nombre');
       }
     }
@@ -164,7 +164,7 @@ class ProductService {
     const existing = await productRepository.findBySku(sku.trim());
 
     if (existing) {
-      if (!excludeId || existing.ProductId !== Number(excludeId)) {
+      if (!excludeId || Number(existing.ProductId) !== Number(excludeId)) {
         throw new BadRequestError('Ya existe un producto con ese SKU');
       }
     }
