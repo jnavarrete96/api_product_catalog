@@ -160,23 +160,6 @@ router.delete('/:id', (req, res, next) =>
   productController.delete(req, res, next)
 );
 
-// POST /api/products/masivo
-/**
- * @swagger
- * /api/products/masivo:
- *   post:
- *     summary: Carga masiva de productos (CSV/XLSX)
- *     tags: [Products]
- *     responses:
- *       501:
- *         description: No implementado aún
- */
-router.post('/masivo', (req, res) => {
-  res.status(501).json({
-    success: false,
-    message: 'Carga masiva no implementada aún'
-  });
-});
 
 /**
  * @swagger
