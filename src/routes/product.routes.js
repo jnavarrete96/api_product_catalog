@@ -178,6 +178,43 @@ router.post('/masivo', (req, res) => {
   });
 });
 
+/**
+ * @swagger
+ * /api/products/masivo:
+ *   post:
+ *     summary: Cargar masivamente productos desde un archivo CSV o XLSX
+ *     tags: [Products]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: Archivo CSV o XLSX con los productos
+ *     responses:
+ *       201:
+ *         description: Carga masiva realizada correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Carga masiva completada
+ *                 inserted:
+ *                   type: integer
+ *                   example: 10
+ *       400:
+ *         description: Error en el archivo o en los datos enviados
+ */
 
 router.post(
   '/masivo',
