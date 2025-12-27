@@ -5,7 +5,8 @@ const ProductDTO = require('../dtos/product.dto');
 
 const {
   BadRequestError,
-  NotFoundError
+  NotFoundError,
+  ConflictError
 } = require('../utils/appError');
 
 class ProductService {
@@ -13,6 +14,8 @@ class ProductService {
   async createProduct(data) {
     this.#validateProductData(data);
     await this.#validateCategory(data.CategoryId);
+    await this.#validateUniqueName(data.Name);
+    await this.#validateUniqueSku(data.Sku);
 
     const product = await productRepository.create({
       ...data,
@@ -55,6 +58,11 @@ class ProductService {
     
     if (data.Name !== undefined) {
       this.#validateProductData({ Name: data.Name });
+      await this.#validateUniqueName(data.Name);
+    }
+
+    if (data.Sku !== undefined) {
+      await this.#validateUniqueSku(data.Sku, id);
     }
     
     if (data.Price !== undefined && Number(data.Price) <= 0) {
@@ -139,6 +147,29 @@ class ProductService {
       throw new BadRequestError('El precio debe ser mayor a 0');
     }
   }
+  async #validateUniqueName(name, excludeId = null) {
+    const existing = await productRepository.findByName(name.trim());
+
+    if (existing) {
+      // Si estamos actualizando, permitir si es el mismo producto
+      if (!excludeId || existing.ProductId !== Number(excludeId)) {
+        throw new ConflictError('Ya existe un producto con ese nombre');
+      }
+    }
+  }
+
+  async #validateUniqueSku(sku, excludeId = null) {
+    if (!sku) return; // SKU es opcional
+
+    const existing = await productRepository.findBySku(sku.trim());
+
+    if (existing) {
+      if (!excludeId || existing.ProductId !== Number(excludeId)) {
+        throw new BadRequestError('Ya existe un producto con ese SKU');
+      }
+    }
+  }
+
 
   async #validateCategory(categoryId) {
     const category = await categoryRepository.findById(categoryId);

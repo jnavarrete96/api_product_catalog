@@ -33,7 +33,7 @@ class ProductController {
       const result = await productService.getPaginated(req.query);
       res.status(200).json({
         success: true,
-        ...result
+        data: { ...result }
       });
     } catch (error) {
       next(error);

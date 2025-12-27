@@ -101,6 +101,20 @@ class ProductRepository {
   async bulkCreate(data) {
     return Product.bulkCreate(data);
   }
+
+  // Buscar por nombre (para validar único)
+  async findByName(name) {
+    return Product.findOne({
+      where: { Name: name }
+    });
+  }
+
+  // Buscar por SKU (para validar único)
+  async findBySku(sku) {
+    return Product.findOne({
+      where: { Sku: sku }
+    });
+  }
 }
 
 module.exports = new ProductRepository();
