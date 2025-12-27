@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const productController = require('../controllers/product.controller');
+const upload = require('../middlewares/upload.middleware');
 
 /**
  * @swagger
@@ -176,5 +177,12 @@ router.post('/masivo', (req, res) => {
     message: 'Carga masiva no implementada aún'
   });
 });
+
+
+router.post(
+  '/masivo',
+  upload.single('file'),
+  (req, res, next) => productController.uploadBulk(req, res, next)
+);
 
 module.exports = router;

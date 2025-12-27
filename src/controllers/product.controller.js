@@ -68,6 +68,18 @@ class ProductController {
       next(error);
     }
   }
+
+  async uploadBulk(req, res, next) {
+    try {
+      const result = await productService.bulkUpload(req.file);
+      res.status(201).json({
+        success: true,
+        ...result
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new ProductController();
