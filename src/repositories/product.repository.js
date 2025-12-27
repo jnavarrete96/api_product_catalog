@@ -78,6 +78,7 @@ class ProductRepository {
     const orderDirection = sortDir?.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
 
     const { rows, count } = await Product.findAndCountAll({
+      distinct: true,
       where,
       include: [
         {
