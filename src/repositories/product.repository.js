@@ -24,11 +24,10 @@ class ProductRepository {
     });
   }
 
-  async softDelete(id) {
-    return Product.update(
-      { IsActive: false },
-      { where: { ProductId: id } }
-    );
+  async delete(id) {
+    return Product.destroy({
+      where: { ProductId: id }
+    });
   }
 
   /**

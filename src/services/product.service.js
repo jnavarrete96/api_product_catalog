@@ -83,7 +83,7 @@ class ProductService {
   // Eliminar producto (soft delete)
   async deleteProduct(id) {
     await this.#ensureProductExists(id);
-    await productRepository.softDelete(id);
+    await productRepository.delete(id);
     return true;
   }
 
