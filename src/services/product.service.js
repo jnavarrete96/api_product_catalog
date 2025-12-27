@@ -1,3 +1,4 @@
+const XLSX = require('xlsx');
 const productRepository = require('../repositories/product.repository');
 const categoryRepository = require('../repositories/category.repository');
 const ProductDTO = require('../dtos/product.dto');
@@ -76,6 +77,49 @@ class ProductService {
     await this.#ensureProductExists(id);
     await productRepository.softDelete(id);
     return true;
+  }
+
+  async bulkUpload(file) {
+    if (!file) {
+      throw new BadRequestError('Debe enviar un archivo CSV o XLSX');
+    }
+
+    const workbook = XLSX.read(file.buffer, { type: 'buffer' });
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+
+    const rows = XLSX.utils.sheet_to_json(sheet);
+
+    if (!rows.length) {
+      throw new BadRequestError('El archivo no contiene datos');
+    }
+
+    const products = [];
+
+    for (const [index, row] of rows.entries()) {
+      const product = {
+        Name: row.Name?.toString().trim(),
+        Description: row.Description || null,
+        Sku: row.Sku || null,
+        Price: Number(row.Price),
+        Stock: Number(row.Stock) || 0,
+        CategoryId: Number(row.CategoryId),
+        IsActive: true
+      };
+
+      // Validaciones mínimas
+      this.#validateProductData(product);
+      await this.#validateCategory(product.CategoryId);
+
+      products.push(product);
+    }
+
+    await productRepository.bulkCreate(products);
+
+    return {
+      message: 'Carga masiva completada',
+      inserted: products.length
+    };
   }
 
   // ================= MÉTODOS PRIVADOS =================

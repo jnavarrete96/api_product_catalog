@@ -97,6 +97,10 @@ class ProductRepository {
       total: count
     };
   }
+
+  async bulkCreate(data) {
+    return Product.bulkCreate(data);
+  }
 }
 
 module.exports = new ProductRepository();
