@@ -5,7 +5,10 @@ class CategoryController {
   async create(req, res, next) {
     try {
       const category = await categoryService.createCategory(req.body);
-      return res.status(201).json(category);
+      return res.status(201).json({
+        success: true,
+        data: category
+      });
     } catch (error) {
       next(error);
     }
@@ -15,7 +18,10 @@ class CategoryController {
   async getAll(req, res, next) {
     try {
       const categories = await categoryService.getCategories();
-      return res.status(200).json(categories);
+      return res.status(200).json({
+        success: true,
+        data: categories
+      });
     } catch (error) {
       next(error);
     }
@@ -26,7 +32,10 @@ class CategoryController {
     try {
       const { id } = req.params;
       const category = await categoryService.updateCategory(id, req.body);
-      return res.status(200).json(category);
+      return res.status(200).json({
+        success: true,
+        data: category
+      });
     } catch (error) {
       next(error);
     }
@@ -37,7 +46,10 @@ class CategoryController {
     try {
       const { id } = req.params;
       await categoryService.deleteCategory(id);
-      return res.status(200).json({ message: 'Categoría eliminada correctamente' });
+      return res.status(200).json({
+        success: true,
+        message: 'Categoría eliminada correctamente'
+      });
     } catch (error) {
       next(error);
     }
@@ -48,7 +60,10 @@ class CategoryController {
     try {
       const { id } = req.params;
       const category = await categoryService.getById(id);
-      return res.status(200).json(category);
+       return res.status(200).json({
+        success: true,
+        data: category
+      });
     } catch (error) {
       next(error);
     }

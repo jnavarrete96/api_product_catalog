@@ -3,6 +3,8 @@ const cors = require('cors');
 
 const categoryRoutes = require('./routes/category.routes');
 const productRoutes = require('./routes/product.routes');
+const errorMiddleware = require('./middlewares/error.middleware');
+
 
 const app = express();
 
@@ -18,5 +20,7 @@ app.use('/api/products', productRoutes);
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'API is running' });
 });
+
+app.use(errorMiddleware);
 
 module.exports = app;
